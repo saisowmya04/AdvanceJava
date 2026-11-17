@@ -1,0 +1,47 @@
+package com.EmpRestApi.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.EmpRestApi.model.Employee;
+import com.EmpRestApi.repository.EmpRepo;
+
+@Service
+public class EmployeeService {
+
+	private final EmpRepo er;
+
+	public EmployeeService(EmpRepo er) {
+		super();
+		this.er = er;
+	}
+	
+	public Employee addEmployee(Employee emp) {
+		return er.save(emp);
+	}
+	
+	public List<Employee> getAllEmp(){
+		return er.findAll();
+	}
+	
+	public void deleteId(int eid) {
+		er.deleteById(eid);
+		System.out.println("delete successfully");
+	}
+	
+	public Employee findById(int eid) {
+		Employee emp=er.findById(eid).orElseThrow();
+		return emp;
+	}
+	
+	public Employee updateEmp(Employee emp,int eid) {
+		Employee emp1=findById(eid);
+		
+		emp1.setEname(emp.getEname());
+		er.save(emp1);
+		return emp1;
+		
+	}
+}
